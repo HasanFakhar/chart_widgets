@@ -10,16 +10,29 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+
     return  MaterialApp(
       home: Scaffold(
         body: Center(
           child: 
-          Container(
-            margin: const EdgeInsets.all(20),
-            padding: const EdgeInsets.all(20),
-            child: AspectRatio(
-              aspectRatio: 2,
-              child: MyLineChart()),
+          Column(
+            children: [
+              Container(
+                margin: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
+                child: AspectRatio(
+                  aspectRatio: 2,
+                  child: MyLineChart(category: 'smartphones', prices: true)),
+              ),
+              Container(
+                margin: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(20),
+                child: AspectRatio(
+                  aspectRatio: 2,
+                  child: MyLineChart(category: 'laptops', prices: false)),
+              ),
+            ],
           )
         ),
       ),

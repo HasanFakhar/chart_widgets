@@ -55,8 +55,16 @@ class _MyLineChartState extends State<MyLineChart> {
 
   @override
   Widget build(BuildContext context) {
+
+     if (dataPoints.isEmpty) {
+    return const Center(child: CircularProgressIndicator());
+  }
+  
     return LineChart(
       LineChartData(
+        backgroundColor: widget.prices 
+        ? const Color(0xff37434d)  
+        : const Color.fromARGB(0, 255, 255, 255), 
         lineBarsData: [
           LineChartBarData(
             spots: _generateFlSpots(),
@@ -70,17 +78,18 @@ class _MyLineChartState extends State<MyLineChart> {
           gridData: FlGridData(
             show: true,
             drawHorizontalLine: true,
+            drawVerticalLine: true,
             verticalInterval: 1,
             horizontalInterval: 1,
             getDrawingVerticalLine: (value) {
-              return const FlLine(
-                color: Color(0xff37434d),
+              return FlLine(
+                color: widget.prices ? const Color(0xff37434d) :const Color.fromARGB(0, 255, 255, 255),
                 strokeWidth: 1,
               );
             },
             getDrawingHorizontalLine: (value) {
-              return const FlLine(
-                color: Color(0xff37434d),
+              return  FlLine(
+                color: widget.prices ? const Color(0xff37434d) :const Color.fromARGB(0, 255, 255, 255),
                 strokeWidth: 1,
               );
             },
@@ -114,6 +123,7 @@ class _MyLineChartState extends State<MyLineChart> {
           ),
 ),
           leftTitles: AxisTitles(
+            axisNameSize: 18,
             axisNameWidget: Text(widget.prices ? 'Price' : 'Rating'
              , style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
             sideTitles: SideTitles(showTitles: true, reservedSize: 40,),
