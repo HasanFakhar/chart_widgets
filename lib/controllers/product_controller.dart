@@ -13,6 +13,28 @@ class ProductController {
     }
   }
 
+  Future<Map<String,int>> stockByCategory() async {
+    List<ProductModel> products = await fetchAllProducts();
+
+    Map<String, int> categoryStockData = {};
+    for (var product in products) {
+      categoryStockData[product.category] = (categoryStockData[product.category] ?? 0) + product.stock;
+    }
+    return categoryStockData;
+  }
+
+  Future<Map<String,int>> ratingByCategory() async {
+    List<ProductModel> products = await fetchAllProducts();
+    Map<String, int> categoryCount = {};
+    for (var product in products) {
+      categoryCount[product.rating.floor().toString()] = (categoryCount[product.rating.floor().toString()] ?? 0) + 1;
+    }
+   
+    return categoryCount;
+  }
+
+
+
   Future<List<ProductModel>> fetchSmartphones() async {
     try {
       return await _productService.getSmartphones();
@@ -35,5 +57,7 @@ class ProductController {
       throw Exception('Error fetching products by category: $e');
     }
   }
+
+
 
 }
