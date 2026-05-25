@@ -60,13 +60,36 @@ class _MyLineChartState extends State<MyLineChart> {
         lineBarsData: [
           LineChartBarData(
             spots: _generateFlSpots(),
-            isCurved: true,
-            color: Colors.blue,
-            barWidth: 3,
+            isCurved: false,
+            gradient: const LinearGradient(
+              colors: [Colors.cyanAccent,Colors.lightBlueAccent],
+            ),
+            barWidth: 4,
           ),
         ],
+          gridData: FlGridData(
+            show: true,
+            drawHorizontalLine: true,
+            verticalInterval: 1,
+            horizontalInterval: 1,
+            getDrawingVerticalLine: (value) {
+              return const FlLine(
+                color: Color(0xff37434d),
+                strokeWidth: 1,
+              );
+            },
+            getDrawingHorizontalLine: (value) {
+              return const FlLine(
+                color: Color(0xff37434d),
+                strokeWidth: 1,
+              );
+            },
+      ),
+        
         titlesData: FlTitlesData(
           bottomTitles: AxisTitles(
+            axisNameSize: 16,
+            axisNameWidget: const Text('Brand', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
           sideTitles: SideTitles(
             showTitles: true,
             reservedSize: 60,
@@ -77,26 +100,37 @@ class _MyLineChartState extends State<MyLineChart> {
               if (value != index.toDouble()) return const SizedBox.shrink();
               if (index < 0 || index >= dataPoints.keys.length) return const SizedBox.shrink();
 
-              return Transform.rotate(
-                angle: -0.4,
-                child: Text(
-                  dataPoints.keys.toList()[index],
-                  style: const TextStyle(fontSize: 11),
+              return Padding(
+                padding: const EdgeInsets.only(top: 10.0),
+                child: Transform.rotate(
+                  angle: -0.4,
+                  child: Text(
+                    dataPoints.keys.toList()[index],
+                    style: const TextStyle(fontSize: 11),
+                  ),
                 ),
               );
             },
           ),
 ),
           leftTitles: AxisTitles(
+            axisNameWidget: Text(widget.prices ? 'Price' : 'Rating'
+             , style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold)),
             sideTitles: SideTitles(showTitles: true, reservedSize: 40,),
           ),
           topTitles: AxisTitles(
             sideTitles: SideTitles(showTitles: false),
           ),
           rightTitles: AxisTitles(
-            sideTitles: SideTitles(showTitles: false),
+          sideTitles: SideTitles(showTitles: false),
+            
           ),
+          
         ),
+         borderData: FlBorderData(
+        show: true,
+        border: Border.all(color: const Color(0xff37434d)),
+      ),
       ),
     );
   }

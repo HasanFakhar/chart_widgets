@@ -14,9 +14,13 @@ class MainApp extends StatelessWidget {
       home: Scaffold(
         body: Center(
           child: 
-          AspectRatio(
-            aspectRatio: 1.5,
-            child: MyLineChart())
+          Container(
+            margin: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
+            child: AspectRatio(
+              aspectRatio: 2,
+              child: MyLineChart()),
+          )
         ),
       ),
     );
