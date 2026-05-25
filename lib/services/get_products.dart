@@ -33,6 +33,10 @@ class ProductService {
     return _fetchProducts('$_baseUrl/products/category/laptops');
   }
 
+  Future<List<ProductModel>> getByCategory(String category) async {
+    return _fetchProducts('$_baseUrl/products/category/$category');
+  }
+
 
   // Map JSON to ProductModel
   ProductModel _mapProduct(Map<String, dynamic> item) {

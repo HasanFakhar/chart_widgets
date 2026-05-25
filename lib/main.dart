@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../widgets/line_chart.dart';
 
 void main() {
   runApp(const MainApp());
@@ -12,7 +13,10 @@ class MainApp extends StatelessWidget {
     return const MaterialApp(
       home: Scaffold(
         body: Center(
-          child: Text('Hello World!'),
+          child: 
+          AspectRatio(
+            aspectRatio: 1.5,
+            child: MyLineChart())
         ),
       ),
     );

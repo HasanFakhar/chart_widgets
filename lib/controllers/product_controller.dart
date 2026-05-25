@@ -1,5 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import '../models/product_model.dart';
 import '../services/get_products.dart';
 
@@ -28,6 +26,13 @@ class ProductController {
       return await _productService.getLaptops();
     } catch (e) {
       throw Exception('Error fetching laptops: $e');
+    }
+  }
+  Future<List<ProductModel>> fetchByCategory(String category) async {
+    try {
+      return await _productService.getByCategory(category);
+    } catch (e) {
+      throw Exception('Error fetching products by category: $e');
     }
   }
 
