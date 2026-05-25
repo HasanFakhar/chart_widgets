@@ -2,25 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import '../controllers/product_controller.dart';
 
-
-
 class MyLineChart extends StatefulWidget {
+  ProductController productController = ProductController();
+  String category;
+  bool prices;
 
-    ProductController productController = ProductController();
-    String category; // will be used to fetch products by category and display in the chart
-    bool prices; // if true, show price data; if false, show rating data
-
-    
-    MyLineChart({super.key, this.category='all', this.prices=true});
+  MyLineChart({super.key, this.category = 'all', this.prices = true});
 
   @override
   State<MyLineChart> createState() => _MyLineChartState();
 }
 
 class _MyLineChartState extends State<MyLineChart> {
- Map<String, double> dataPoints = {}; // to hold the data points for the chart
+  Map<String, double> dataPoints = {};
 
-void fetchData() async {
+  List<FlSpot> _generateFlSpots() {
+    return dataPoints.entries
+        .map((entry) => FlSpot(
+              dataPoints.keys.toList().indexOf(entry.key).toDouble(),
+              entry.value,
+            ))
+        .toList();
+  }
+
+  void fetchData() async {
     try {
       List products;
       if (widget.category == 'all') {
@@ -28,48 +33,71 @@ void fetchData() async {
       } else {
         products = await widget.productController.fetchByCategory(widget.category);
       }
-      
-      setState(() {
-          dataPoints = {
-            for (var product in products) 
-              product.title : widget.prices
-                  ? product.price.toDouble()
-                  : product.rating.toDouble(),
-          };
-        });
 
+      setState(() {
+        dataPoints = {
+          for (var product in products)
+            product.brand ?? 'Unknown': widget.prices
+                ? product.price.toDouble()
+                : product.rating.toDouble(),
+        };
+      });
     } catch (e) {
       print('Error fetching data: $e');
     }
-
-    print('Data points: $dataPoints'); // Debug print to check the data points
   }
 
   @override
   void initState() {
     super.initState();
-    fetchData(); // Fetch data when the widget is initialized
+    fetchData();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return LineChart(
       LineChartData(
         lineBarsData: [
           LineChartBarData(
-            spots: dataPoints.entries
-                .map((entry) => FlSpot(
-                      dataPoints.keys.toList().indexOf(entry.key).toDouble(),
-                      entry.value,
-                    ))
-                .toList(),
+            spots: _generateFlSpots(),
             isCurved: true,
             color: Colors.blue,
             barWidth: 3,
           ),
         ],
+        titlesData: FlTitlesData(
+          bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 60,
+            interval: 1, 
+            getTitlesWidget: (value, meta) {
+              final index = value.toInt();
+             
+              if (value != index.toDouble()) return const SizedBox.shrink();
+              if (index < 0 || index >= dataPoints.keys.length) return const SizedBox.shrink();
+
+              return Transform.rotate(
+                angle: -0.4,
+                child: Text(
+                  dataPoints.keys.toList()[index],
+                  style: const TextStyle(fontSize: 11),
+                ),
+              );
+            },
+          ),
+),
+          leftTitles: AxisTitles(
+            sideTitles: SideTitles(showTitles: true, reservedSize: 40,),
+          ),
+          topTitles: AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+          rightTitles: AxisTitles(
+            sideTitles: SideTitles(showTitles: false),
+          ),
+        ),
       ),
     );
   }
-
 }
