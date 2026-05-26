@@ -50,7 +50,6 @@ class _MainAppState extends State<MainApp> {
                       onChanged: (v) => setState(() => _lineCategory1 = v!),
                     ),
                   ),
-                  const SizedBox(width: 12),
                   const Text('Prices'),
                   Switch(value: _linePrices1, onChanged: (v) => setState(() => _linePrices1 = v)),
                 ],

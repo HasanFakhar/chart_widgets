@@ -22,6 +22,7 @@ class _MyPieChartState extends State<MyPieChart>{
   late ProductController productController;
   Map<String, int> dataPoints = {};
     int touchedIndex = -1;
+    bool isLoading = false;
 
 
   @override
@@ -42,6 +43,7 @@ class _MyPieChartState extends State<MyPieChart>{
 
 
   void fetchData() async {
+    isLoading = true;
     try {
       Map<String, int> fetchedData = widget.stock
           ? await productController.stockByCategory()
@@ -49,19 +51,35 @@ class _MyPieChartState extends State<MyPieChart>{
 
       setState(() {
         dataPoints = fetchedData;
+        isLoading = false;
         print ('Fetched data: $dataPoints');
       });
     } catch (e) {
       print('Error fetching data: $e');
     }
   }
+static const _palette = [
+  Color(0xFFFF9800), // orange
+  Color(0xFFE53935), // red
+  Color(0xFFFFB74D), // light orange
+  Color(0xFFEF9A9A), // light red
+  Color(0xFFE65100), // deep orange
+  Color(0xFFB71C1C), // deep red
+  Color(0xFFFFCC02), // amber
+  Color(0xFFFF1744), // bright red
+  Color(0xFFFFA726), // soft orange
+  Color(0xFFD50000), // crimson
+  Color(0xFFFFD54F), // pale amber
+  Color(0xFFC62828), // dark crimson
+];
   
   @override
   Widget build(BuildContext context){
+    
 
     final entries = dataPoints.entries.toList();
 
-    return PieChart(
+    return isLoading ? const Center(child: CircularProgressIndicator()) : PieChart(
       
       PieChartData(
          pieTouchData: PieTouchData(
@@ -80,7 +98,7 @@ class _MyPieChartState extends State<MyPieChart>{
           },
           
         ),
-        centerSpaceRadius: 0,
+        centerSpaceRadius: 50,
       sections: entries.asMap().entries.map((mapEntry) {
             final index = mapEntry.key;
             final entry = mapEntry.value;
@@ -94,11 +112,11 @@ class _MyPieChartState extends State<MyPieChart>{
             final isTouched = index == touchedIndex;
 
           return PieChartSectionData(
-            radius: isTouched ? 150 : 130,
+            radius: isTouched ? 100 : 80,
             value: value,
             title: isTouched ? pietitle : '',
-            titleStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white), 
-            color: Colors.primaries[dataPoints.keys.toList().indexOf(entry.key) % Colors.primaries.length],
+            titleStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black), 
+            color: _palette[index % _palette.length],
           );
         }).toList(),
       ),
