@@ -21,6 +21,8 @@ class _MyPieChartState extends State<MyPieChart>{
 
   late ProductController productController;
   Map<String, int> dataPoints = {};
+    int touchedIndex = -1;
+
 
   @override
   void initState() {
@@ -48,17 +50,44 @@ class _MyPieChartState extends State<MyPieChart>{
   @override
   Widget build(BuildContext context){
 
+    final entries = dataPoints.entries.toList();
+
     return PieChart(
       
       PieChartData(
+         pieTouchData: PieTouchData(
+          touchCallback: (FlTouchEvent event, pieTouchResponse) {
+            setState(() {
+              if (!event.isInterestedForInteractions ||
+                  pieTouchResponse == null ||
+                  pieTouchResponse.touchedSection == null) {
+                touchedIndex = -1;
+                return;
+              }
+
+              touchedIndex = pieTouchResponse
+                  .touchedSection!.touchedSectionIndex;
+            });
+          },
+          
+        ),
         centerSpaceRadius: 0,
-        sections: dataPoints.entries.map((entry) {
-          final pietitle = widget.stock ? '${entry.key}: ${entry.value}' : '${entry.key} stars: ${entry.value}';
-          final value = entry.value.toDouble();
+      sections: entries.asMap().entries.map((mapEntry) {
+            final index = mapEntry.key;
+            final entry = mapEntry.value;
+
+            final pietitle = widget.stock
+                ? '${entry.key}: ${entry.value}'
+                : '${entry.key} stars: ${entry.value}';
+
+            final value = entry.value.toDouble();
+
+            final isTouched = index == touchedIndex;
+
           return PieChartSectionData(
-            radius: 150,
+            radius: isTouched ? 170 : 150,
             value: value,
-            title: pietitle,
+            title: isTouched ? pietitle : '',
             titleStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white), 
             color: Colors.primaries[dataPoints.keys.toList().indexOf(entry.key) % Colors.primaries.length],
           );

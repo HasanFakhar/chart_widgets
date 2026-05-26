@@ -41,21 +41,30 @@ class MainApp extends StatelessWidget {
                   ),
                 ),
 
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  padding: const EdgeInsets.all(20),
-                  child: AspectRatio(
-                    aspectRatio: 2,
-                    child: MyPieChart(stock: false),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  padding: const EdgeInsets.all(20),
-                  child: AspectRatio(
-                    aspectRatio: 2,
-                    child: MyPieChart(stock: true),
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: MyPieChart(stock: false),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        margin: const EdgeInsets.all(20),
+                        padding: const EdgeInsets.all(20),
+                        child: AspectRatio(
+                          aspectRatio: 1,
+                          child: MyPieChart(stock: true),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
