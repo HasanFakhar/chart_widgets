@@ -98,7 +98,7 @@ Widget build(BuildContext context) {
     ),
     primaryYAxis: NumericAxis(
       name: 'priceAxis',
-      title: AxisTitle(text: 'Price (\$)'),
+      title: AxisTitle(text: 'AVG Price (\$)'),
       labelFormat: '\${value}',
     ),
     axes: [

@@ -24,11 +24,7 @@ class _MainAppState extends State<MainApp> {
   String _lineCategory1 = 'laptops';
   bool _linePrices1 = true;
 
-  String _lineCategory2 = 'laptops';
-  bool _linePrices2 = false;
-
   bool _pieStock1 = false;
-  bool _pieStock2 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +36,7 @@ class _MainAppState extends State<MainApp> {
             children: [
               const SizedBox(height: 20),
 
+           
               Row(
                 children: [
                   Expanded(
@@ -50,8 +47,15 @@ class _MainAppState extends State<MainApp> {
                       onChanged: (v) => setState(() => _lineCategory1 = v!),
                     ),
                   ),
-                  const Text('Prices'),
-                  Switch(value: _linePrices1, onChanged: (v) => setState(() => _linePrices1 = v)),
+                  const SizedBox(width: 12),
+                  DropdownButton<bool>(
+                    value: _linePrices1,
+                    items: const [
+                      DropdownMenuItem(value: true,  child: Text('Price')),
+                      DropdownMenuItem(value: false, child: Text('Rating')),
+                    ],
+                    onChanged: (v) => setState(() => _linePrices1 = v!),
+                  ),
                 ],
               ),
               AspectRatio(
@@ -61,51 +65,23 @@ class _MainAppState extends State<MainApp> {
 
               const SizedBox(height: 20),
 
-      
-              Row(
-                children: [
-                  Expanded(
-                    child: DropdownButton<String>(
-                      value: _lineCategory2,
-                      isExpanded: true,
-                      items: categories.map((c) => DropdownMenuItem(value: c, child: Text(c))).toList(),
-                      onChanged: (v) => setState(() => _lineCategory2 = v!),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  const Text('Prices'),
-                  Switch(value: _linePrices2, onChanged: (v) => setState(() => _linePrices2 = v)),
+        
+            
+              DropdownButton<bool>(
+                value: _pieStock1,
+                items: const [
+                  DropdownMenuItem(value: false, child: Text('Rating')),
+                  DropdownMenuItem(value: true,  child: Text('Stock')),
                 ],
+                onChanged: (v) => setState(() => _pieStock1 = v!),
               ),
               AspectRatio(
-                aspectRatio: 2,
-                child: MyLineChart(category: _lineCategory2, prices: _linePrices2),
+                aspectRatio: 1.4,
+                child: MyPieChart(stock: _pieStock1),
               ),
 
               const SizedBox(height: 20),
 
-        
-                  
-                     Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                             _pieStock1 ? const Text('Stock') : const Text('Rating'),
-                            Switch(value: _pieStock1, onChanged: (v) => setState(() => _pieStock1 = v)),
-                          ],
-                        ),
-                        AspectRatio(aspectRatio: 1.4, child: MyPieChart(stock: _pieStock1)),
-                      ],
-                    ),
-             
-                 
-                
-              
-
-              const SizedBox(height: 20),
-
-            
               AspectRatio(
                 aspectRatio: 1.5,
                 child: LineBarChart(),

@@ -140,8 +140,10 @@ static const _lineEnd    = Color(0xFFFFCC02);   // amber gradient end
       leftTitles: AxisTitles(
         axisNameSize: 18,
         axisNameWidget: Text(
-          widget.prices ? 'Price' : 'Rating',
+          widget.prices ? 'Price  (\$)' : 'Rating (*)',
           style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Color.fromARGB(255, 0, 0, 0)),
+          
+          
         ),
         sideTitles: SideTitles(
           showTitles: true,
