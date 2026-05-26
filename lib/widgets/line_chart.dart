@@ -3,7 +3,6 @@ import 'package:fl_chart/fl_chart.dart';
 import '../controllers/product_controller.dart';
 
 class MyLineChart extends StatefulWidget {
-  ProductController productController = ProductController();
   String category;
   bool prices;
 
@@ -15,6 +14,8 @@ class MyLineChart extends StatefulWidget {
 
 class _MyLineChartState extends State<MyLineChart> {
   Map<String, double> dataPoints = {};
+  late ProductController productController;
+
 
   List<FlSpot> _generateFlSpots() {
     return dataPoints.entries
@@ -29,9 +30,9 @@ class _MyLineChartState extends State<MyLineChart> {
     try {
       List products;
       if (widget.category == 'all') {
-        products = await widget.productController.fetchAllProducts();
+        products = await productController.fetchAllProducts();
       } else {
-        products = await widget.productController.fetchByCategory(widget.category);
+        products = await productController.fetchByCategory(widget.category);
       }
 
       setState(() {
@@ -50,6 +51,7 @@ class _MyLineChartState extends State<MyLineChart> {
   @override
   void initState() {
     super.initState();
+    productController = ProductController();
     fetchData();
   }
 
