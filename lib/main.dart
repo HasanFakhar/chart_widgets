@@ -38,8 +38,8 @@ class _MainAppState extends State<MainApp> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
+              const SizedBox(height: 20),
 
-              // ── Line Chart 1 ───────────────────────────────────────
               Row(
                 children: [
                   Expanded(
@@ -62,7 +62,7 @@ class _MainAppState extends State<MainApp> {
 
               const SizedBox(height: 20),
 
-              // ── Line Chart 2 ───────────────────────────────────────
+      
               Row(
                 children: [
                   Expanded(
@@ -96,7 +96,7 @@ class _MainAppState extends State<MainApp> {
                             Switch(value: _pieStock1, onChanged: (v) => setState(() => _pieStock1 = v)),
                           ],
                         ),
-                        AspectRatio(aspectRatio: 2, child: MyPieChart(stock: _pieStock1)),
+                        AspectRatio(aspectRatio: 1.4, child: MyPieChart(stock: _pieStock1)),
                       ],
                     ),
              
@@ -106,9 +106,9 @@ class _MainAppState extends State<MainApp> {
 
               const SizedBox(height: 20),
 
-              // ── Combined Chart ─────────────────────────────────────
+            
               AspectRatio(
-                aspectRatio: 2.5,
+                aspectRatio: 1.5,
                 child: LineBarChart(),
               ),
             ],
