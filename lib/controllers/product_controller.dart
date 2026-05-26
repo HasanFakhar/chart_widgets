@@ -23,11 +23,11 @@ class ProductController {
     return categoryStockData;
   }
 
-  Future<Map<String,int>> ratingByCategory() async {
+  Future<Map<String,int>> countByRating() async {
     List<ProductModel> products = await fetchAllProducts();
     Map<String, int> categoryCount = {};
     for (var product in products) {
-      categoryCount[product.rating.floor().toString()] = (categoryCount[product.rating.floor().toString()] ?? 0) + 1;
+      categoryCount[product.rating.round().toString()] = (categoryCount[product.rating.round().toString()] ?? 0) + 1;
     }
    
     return categoryCount;

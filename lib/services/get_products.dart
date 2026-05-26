@@ -20,7 +20,7 @@ class ProductService {
 
 
   Future<List<ProductModel>> getAllProducts() async {
-    return _fetchProducts('$_baseUrl/products');
+    return _fetchProducts('$_baseUrl/products/?limit=100');
   }
 
 

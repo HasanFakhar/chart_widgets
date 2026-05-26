@@ -49,6 +49,14 @@ class MainApp extends StatelessWidget {
                     child: MyPieChart(stock: false),
                   ),
                 ),
+                Container(
+                  margin: const EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
+                  child: AspectRatio(
+                    aspectRatio: 2,
+                    child: MyPieChart(stock: true),
+                  ),
+                ),
               ],
             ),
           ),

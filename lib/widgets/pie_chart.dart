@@ -34,7 +34,7 @@ class _MyPieChartState extends State<MyPieChart>{
     try {
       Map<String, int> fetchedData = widget.stock
           ? await productController.stockByCategory()
-          : await productController.ratingByCategory();
+          : await productController.countByRating();
 
       setState(() {
         dataPoints = fetchedData;
@@ -49,12 +49,17 @@ class _MyPieChartState extends State<MyPieChart>{
   Widget build(BuildContext context){
 
     return PieChart(
+      
       PieChartData(
+        centerSpaceRadius: 0,
         sections: dataPoints.entries.map((entry) {
+          final pietitle = widget.stock ? '${entry.key}: ${entry.value}' : '${entry.key} stars: ${entry.value}';
           final value = entry.value.toDouble();
           return PieChartSectionData(
+            radius: 150,
             value: value,
-            title: '${entry.key}: ${entry.value}',
+            title: pietitle,
+            titleStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white), 
             color: Colors.primaries[dataPoints.keys.toList().indexOf(entry.key) % Colors.primaries.length],
           );
         }).toList(),
