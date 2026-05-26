@@ -54,6 +54,13 @@ class _MyLineChartState extends State<MyLineChart> {
     productController = ProductController();
     fetchData();
   }
+  @override
+void didUpdateWidget(MyLineChart oldWidget) {
+  super.didUpdateWidget(oldWidget);
+  if (oldWidget.category != widget.category || oldWidget.prices != widget.prices) {
+    fetchData();
+  }
+}
 
   @override
   Widget build(BuildContext context) {

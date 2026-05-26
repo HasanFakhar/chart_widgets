@@ -33,7 +33,12 @@ class ProductController {
     return categoryCount;
   }
 
+  Future<List<String>> getCategories() async {
+        List<ProductModel> products = await fetchAllProducts();
+        Set<String> categories = products.map((product) => product.category).toSet();
+        return categories.toList();
 
+  }
 
   Future<List<ProductModel>> fetchSmartphones() async {
     try {

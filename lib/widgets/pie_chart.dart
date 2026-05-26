@@ -32,6 +32,15 @@ class _MyPieChartState extends State<MyPieChart>{
 
   }
 
+  @override
+  void didUpdateWidget(MyPieChart oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.stock != widget.stock) {
+      fetchData();
+    }
+  }
+
+
   void fetchData() async {
     try {
       Map<String, int> fetchedData = widget.stock
@@ -85,10 +94,10 @@ class _MyPieChartState extends State<MyPieChart>{
             final isTouched = index == touchedIndex;
 
           return PieChartSectionData(
-            radius: isTouched ? 170 : 150,
+            radius: isTouched ? 150 : 130,
             value: value,
             title: isTouched ? pietitle : '',
-            titleStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white), 
+            titleStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white), 
             color: Colors.primaries[dataPoints.keys.toList().indexOf(entry.key) % Colors.primaries.length],
           );
         }).toList(),
